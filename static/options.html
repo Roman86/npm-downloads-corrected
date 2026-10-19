@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>npm Downloads Corrected — Options</title>
+  <style>
+    body { font: 14px/1.5 system-ui, sans-serif; margin: 16px; min-width: 360px; }
+    label { display: block; margin: 10px 0 2px; font-weight: 600; }
+    input, textarea { width: 100%; box-sizing: border-box; font: inherit; padding: 4px 6px; }
+    textarea { height: 70px; }
+    small { color: #777; }
+    button { margin-top: 14px; padding: 6px 14px; }
+    #status { margin-left: 8px; color: #2a7; }
+  </style>
+</head>
+<body>
+  <label for="references">Reference packages (comma-separated)</label>
+  <textarea id="references"></textarea>
+  <small>Huge packages installed transitively almost everywhere. More references make the estimate more robust.</small>
+
+  <label for="baselineWeeks">Baseline window, weeks on each side</label>
+  <input id="baselineWeeks" type="number" min="1" max="12">
+
+  <label for="tolerance">Outage threshold (fraction)</label>
+  <input id="tolerance" type="number" step="0.01" min="0" max="0.9">
+  <small>0.1 — a day counts as an outage if the references dropped by more than 10%.</small>
+
+  <label for="minRatio">Minimum scaling ratio</label>
+  <input id="minRatio" type="number" step="0.01" min="0.01" max="0.9">
+  <small>If the references fell below this fraction (near-total outage), the day is filled with the package’s own same-weekday median.</small>
+
+  <label for="minRefs">References required to have data for a day</label>
+  <input id="minRefs" type="number" min="1" max="20">
+
+  <button id="save">Save</button><span id="status"></span>
+
+  <script src="options.js"></script>
+</body>
+</html>
