@@ -53,22 +53,28 @@ Then **Load unpacked** → select `dist/`. Open any package page on npmjs.com.
 
 ## Project layout
 
-TypeScript (strict), bundled by esbuild into plain scripts in `dist/`.
+TypeScript (strict); the panel is Preact + Tailwind CSS; esbuild bundles everything into plain scripts in `dist/` (nothing is loaded at runtime).
 
 ```
-src/content.ts       the panel on npmjs.com/package/* pages
-src/background.ts    service worker: npm API / registry requests, caching
-src/options.ts       options page logic
-src/types.ts         shared data shapes and content ↔ background messages
-src/defaults.ts      reference packages and thresholds
-src/lib/correct.ts   correction algorithm (no browser APIs)
-src/lib/chart.ts     chart, axes, previous-period shadow, tooltip
-src/lib/recent.ts    recent / starred list logic
-src/lib/styles.ts    panel CSS (injected into the shadow root)
-static/              manifest.json, options.html, icons — copied into dist/ as is
-scripts/build.ts     build (--watch, --zip)
-test/                Node tests; fixtures/ holds real npm data (Aug–Oct 2026)
-CLAUDE.md            notes for AI-assisted development (decisions, data quirks)
+src/content.tsx        panel lifecycle on npmjs.com/package/* pages: SPA navigation, shadow root, theme
+src/ui/Panel.tsx       the panel (Preact): header, 7-day headline, periods, summary grid, legend
+src/ui/Chart.tsx       SVG chart and tooltip
+src/ui/PackagesMenu.tsx  Recent / By author menu
+src/ui/data.ts         settings and preferences (chrome.storage), background messages, a period's data
+src/ui/theme.ts        colours and font from the page → CSS variables on the panel host
+src/panel.css          panel stylesheet (Tailwind), compiled into content.js at build time
+src/background.ts      service worker: npm API / registry requests, caching
+src/options.ts         options page logic
+src/types.ts           shared data shapes and content ↔ background messages
+src/defaults.ts        reference packages and thresholds
+src/lib/correct.ts     correction algorithm (no browser APIs)
+src/lib/period.ts      periods: ranges, date windows, slicing a period out of the series (no browser APIs)
+src/lib/chart.ts       chart geometry: scales, ticks, paths, tooltip texts (no browser APIs)
+src/lib/recent.ts      recent / starred list logic
+static/                manifest.json, options.html, icons — copied into dist/ as is
+scripts/build.ts       build (--watch, --zip): esbuild with a Tailwind plugin
+test/                  Node tests; fixtures/ holds real npm data (Aug–Oct 2026)
+CLAUDE.md              notes for AI-assisted development (decisions, data quirks)
 ```
 
 ## Development
@@ -80,7 +86,7 @@ npm test           # tsc --noEmit + node --test
 npm run zip        # dist/ → npm-downloads-corrected-<version>.zip
 ```
 
-Tests run the TypeScript sources directly (Node's type stripping, no extra tooling). They cover the algorithm on synthetic data (partial and full outages, package-level gaps, small and young packages), a regression test on real npm data for `tailwindcss-scoped-preflight` and its references (Aug 1 – Oct 18, 2026, including npm-wide zero days; Christmas 2024 for the holiday rule), and the recent/starred list logic.
+Tests run the TypeScript sources directly (Node's type stripping, no extra tooling). They cover the algorithm on synthetic data (partial and full outages, package-level gaps, small and young packages), a regression test on real npm data for `tailwindcss-scoped-preflight` and its references (Aug 1 – Oct 18, 2026, including npm-wide zero days; Christmas 2024 for the holiday rule), the period slicing (an npm-wide outage on the first day of a period is not a package launch), and the recent/starred list logic. The UI is checked in a browser with Playwright (not in the repo).
 
 ## License
 
