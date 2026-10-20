@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "npm Downloads Corrected",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "description": "Fixes outage dips in npmjs.com download stats by comparing against huge reference packages.",
   "minimum_chrome_version": "105",
   "icons": {

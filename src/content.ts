@@ -4,6 +4,7 @@
 import { DEFAULTS } from './defaults.ts';
 import { correctSeries, toWeekly } from './lib/correct.ts';
 import { compact, mount, type Granularity } from './lib/chart.ts';
+import { slicePeriod } from './lib/period.ts';
 import * as R from './lib/recent.ts';
 import { STYLES } from './lib/styles.ts';
 import type {
@@ -253,20 +254,12 @@ async function compute(st: PageState, range: Range, offset: number): Promise<Vie
     gapDays: d.method === 'gap' ? 1 : 0,
     holidayDays: d.holiday && d.method === 'none' ? 1 : 0,
   }));
-  const between = (a: string, b: string) => daily.filter((d) => d.start >= a && d.start <= b);
-
-  let period = between(w.start, w.end);
-  let prev = range.compare ? between(w.prevStart, w.prevEnd) : null;
-
-  // Young package: drop the run of zeros before its first download.
-  const first = period.findIndex((d) => d.raw > 0);
-  const trimmed = first > 0;
-  if (first > 0) {
-    period = period.slice(first);
-    if (prev) prev = prev.slice(Math.max(0, prev.length - period.length));
-  }
-  if (first === -1) period = [];
-  if (prev && !prev.some((d) => d.raw > 0)) prev = null;
+  const { period, prev, trimmed, empty } = slicePeriod(
+    daily,
+    w.start,
+    w.end,
+    range.compare ? { start: w.prevStart, end: w.prevEnd } : null
+  );
 
   const toPoints = (arr: Point[]) => (range.gran === 'week' ? toWeekly(arr) : arr);
   return {
@@ -277,7 +270,7 @@ async function compute(st: PageState, range: Range, offset: number): Promise<Vie
     points: toPoints(period),
     prevPoints: prev ? toPoints(prev) : null,
     trimmed,
-    empty: !period.length,
+    empty,
     refs: goodRefs.map((r) => r.name),
   };
 }
