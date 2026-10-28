@@ -15,23 +15,20 @@ Fixes outage dips in npmjs.com download stats by comparing against huge referenc
 **Description**:
 
 ```
-npm's download counter regularly loses data: on some days it reports a fraction of the real downloads, on others 0 for every package. The weekly chart on npmjs.com then shows sharp drops that have nothing to do with real usage. This extension detects those days and shows corrected numbers next to npm's own, right on the package page.
+npm's download counter loses data: on some days it reports a fraction of the real downloads, on others 0 for every package. The chart on npmjs.com then shows drops that have nothing to do with real usage.
 
-WHAT YOU GET
-On every npmjs.com package page, a small floating panel in the bottom-right corner:
-• Last 7 days — corrected and as reported by npm, plus the change vs the previous 7 days.
-• Periods 5Y · 2Y · 1Y · 3M · 1M · 1W (daily up to a quarter, weekly beyond), with ‹ › to step one period back or forward.
-• Chart — grey: as reported by npm, purple: corrected, dots: days with outages. For 1Y and shorter, a dashed shadow of the previous period and the change vs it.
-• Period summary — corrected total, how much npm undercounted, change vs the previous period.
-• Tooltip — both values, what was corrected and why (npm-wide outage, or data missing for this package only), the previous-period value.
-• Packages menu — Recent (the last 10 packages you opened, starred ones on top) and By author (the maintainer's other packages, sorted by weekly downloads).
-The panel collapses to a single line, follows npm's light or dark theme and never breaks the page layout.
+This extension detects those days by comparing against huge reference packages (semver, debug, ms, chalk, tslib) and shows corrected numbers next to npm's own, in a small panel on every package page:
 
-HOW THE CORRECTION WORKS
-An outage in npm's counting pipeline loses roughly the same share of downloads for every package on that day. Huge packages (semver, debug, ms, chalk, tslib — tens of millions of downloads a week) have very smooth curves, so a dip in them is almost certainly a counting loss, not a real drop. For each day the extension compares the references against their usual same-weekday level; if they dropped, the package's value for that day is scaled up by the same ratio (or, on days when npm reported ~0 for everything, replaced by the package's own usual level). Real spikes and drops of the package itself are left untouched, and so are holiday dips, when everything really is quieter. Reference packages and thresholds can be changed in Options.
+• Last 7 days, corrected and as reported by npm.
+• Periods from a week to five years. Grey: npm, purple: corrected, dots: days with outages, dashed: the previous period.
+• Tooltip with what was corrected and why.
+• Recent and starred packages, and the maintainer's other packages.
 
-PRIVACY
-No data is collected and nothing is sent anywhere except the two npm endpoints the npmjs.com site itself uses (api.npmjs.org for download counts, registry.npmjs.org for maintainers). Stored in your browser only: the statistics cache, your recent/starred packages and the panel state (local storage, never leaves the device); the Options settings and the selected period (Chrome's extension sync, so they follow you between your own browsers). Open source (MIT): https://github.com/Roman86/npm-downloads-corrected
+Real spikes and drops of the package itself are left untouched, and so are holiday dips. Reference packages and thresholds can be changed in Options.
+
+No data is collected. The extension talks only to api.npmjs.org and registry.npmjs.org, and everything it stores stays in your browser.
+
+Open source (MIT): https://github.com/Roman86/npm-downloads-corrected
 ```
 
 **Official / homepage URL**: https://github.com/Roman86/npm-downloads-corrected
@@ -81,4 +78,4 @@ Publisher account: declare as **non-trader** (EEA Digital Services Act) — free
 
 ## Package
 
-`npm run zip` → `npm-downloads-corrected-<version>.zip` (the contents of `dist/`, manifest at the root). Needs the `zip` CLI (macOS has it). Bump the version in `static/manifest.json` and `package.json` before every upload; the store rejects a version it has already seen.
+`npm run zip` → `npm-downloads-corrected-<version>.zip`: the contents of `dist/`, manifest at the root (needs the `zip` CLI). Bump the version in `static/manifest.json` and `package.json` before every upload.

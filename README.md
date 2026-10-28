@@ -33,19 +33,7 @@ Days without an outage are left untouched, and so are real spikes and drops of t
 
 ## Install
 
-From the Chrome Web Store: coming soon (the listing is being prepared, see `docs/chrome-web-store.md`).
-
-
-From a release: unzip it, open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the unzipped folder.
-
-From source (Node 22.6+):
-
-```
-npm install
-npm run build      # → dist/
-```
-
-Then **Load unpacked** → select `dist/`. Open any package page on npmjs.com.
+Chrome Web Store: **npm Downloads Corrected** (Chrome, Edge, Brave and other Chromium browsers). Open any package page on npmjs.com.
 
 ## Data and privacy
 
@@ -87,8 +75,10 @@ CLAUDE.md              notes for AI-assisted development (decisions, data quirks
 
 ## Development
 
+Node 22.6+. `npm install`, then:
+
 ```
-npm run build      # dist/
+npm run build      # dist/  (chrome://extensions → Developer mode → Load unpacked → dist/)
 npm run watch      # rebuild on change (reload the extension and the page after)
 npm test           # tsc --noEmit + node --test
 npm run zip        # dist/ → npm-downloads-corrected-<version>.zip
