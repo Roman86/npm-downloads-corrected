@@ -1,0 +1,14 @@
+npm's download counter loses data: on some days it reports a fraction of the real downloads, on others 0 for every package. The chart on npmjs.com then shows drops that have nothing to do with real usage.
+
+This extension detects those days by comparing against huge reference packages (semver, debug, ms, chalk, tslib) and shows corrected numbers next to npm's own, in a small panel on every package page:
+
+• Last 7 days, corrected and as reported by npm.
+• Periods from a week to five years. Grey: npm, purple: corrected, dots: days with outages, dashed: the previous period.
+• Tooltip with what was corrected and why.
+• Recent and starred packages, and the maintainer's other packages.
+
+Real spikes and drops of the package itself are left untouched, and so are holiday dips. Reference packages and thresholds can be changed in Options.
+
+No data is collected. The extension talks only to api.npmjs.org and registry.npmjs.org, and everything it stores stays in your browser.
+
+Open source (MIT): https://github.com/Roman86/npm-downloads-corrected

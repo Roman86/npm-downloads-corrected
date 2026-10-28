@@ -1,0 +1,1 @@
+Fetches daily download counts for the package being viewed and for the reference packages. This is the data the correction is computed from. Requests contain package names only.

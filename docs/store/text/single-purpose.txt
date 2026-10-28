@@ -1,0 +1,1 @@
+Shows npm download statistics corrected for outages in npm's stats pipeline, as a panel on npmjs.com package pages.

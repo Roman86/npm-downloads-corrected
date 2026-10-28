@@ -1,0 +1,1 @@
+Renders the panel on npmjs.com package pages. It is registered for the whole site because npmjs.com is a single-page app: navigating from search or the home page to a package does not reload the page, so a /package/* match alone would miss those navigations. The script itself only acts on package pages and only adds its own panel; it does not read or change the page's content.
