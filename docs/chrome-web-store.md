@@ -48,7 +48,7 @@ Shows npm download statistics corrected for outages in npm's stats pipeline, as 
 
 - `storage`:
   ```
-  Caches download statistics fetched from npm so pages open quickly, and keeps the user's settings (reference packages, thresholds), the last 10 packages they opened and the ones they starred. All of it stays in the browser.
+  Browser-local storage (chrome.storage) for the user's settings (reference packages, thresholds), the last 10 packages they opened and the ones they starred, and a cache of download statistics already fetched from npm, so package pages open without refetching. Nothing is sent to any server.
   ```
 - Host permission `https://api.npmjs.org/*`:
   ```
