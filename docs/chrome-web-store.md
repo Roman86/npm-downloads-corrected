@@ -37,7 +37,7 @@ No data is collected and nothing is sent anywhere except the two npm endpoints t
 **Official / homepage URL**: https://github.com/Roman86/npm-downloads-corrected
 **Support URL**: https://github.com/Roman86/npm-downloads-corrected/issues
 
-**Graphics**: store icon 128×128 — `static/icons/icon128.png`. Screenshots: 1–5, each 1280×800 (or 640×400), PNG/JPEG, taken on a real npmjs.com package page: panel expanded with 1Y, tooltip over an outage day, Packages menu, dark theme. Optional: small promo tile 440×280, marquee 1400×560.
+**Graphics**: store icon 128×128 — `static/icons/icon128.png`. Small promo tile 440×280 — `docs/store/promo-440x280.png` (rendered in Chromium from `promo-440x280.svg` next to it, Inter font; the chart is real `tailwindcss-scoped-preflight` data from the test fixture, Sep–Oct 2026). Screenshots: 1–5, each 1280×800 (or 640×400), PNG/JPEG, taken on a real npmjs.com package page: panel expanded with 1Y, tooltip over an outage day, Packages menu, dark theme. Optional: small promo tile 440×280, marquee 1400×560.
 
 ## Privacy practices
 

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="280" viewBox="0 0 440 280" font-family="Inter, 'Liberation Sans', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#262b33"/><stop offset="1" stop-color="#1a1d23"/></linearGradient>
+    <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9b6bff" stop-opacity=".28"/><stop offset="1" stop-color="#9b6bff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="440" height="280" fill="url(#bg)"/>
+  <g transform="translate(14 14) scale(0.5)">
+    <rect x="17" y="17" width="94" height="94" rx="20" fill="#1f2329" stroke="#ffffff" stroke-opacity=".16" stroke-width="2"/>
+    <rect x="32" y="56" width="10.75" height="40" rx="2.6875" fill="#9b6bff"/><rect x="49.75" y="42" width="10.75" height="54" rx="2.6875" fill="#9b6bff"/><rect x="67.5" y="46" width="10.75" height="30" rx="2.6875" fill="#9b6bff" opacity=".45"/><rect x="67.5" y="76" width="10.75" height="20" rx="2.6875" fill="#a3a9b3"/><rect x="85.25" y="34" width="10.75" height="62" rx="2.6875" fill="#9b6bff"/>
+  </g>
+  <text x="84" y="44" font-size="22" font-weight="700" fill="#ffffff" letter-spacing="-0.2">npm Downloads Corrected</text>
+  <text x="84" y="66" font-size="13" fill="#a3a9b3">npm's download stats, with the outage dips fixed</text>
+
+  <text x="24" y="106" font-size="11.5" font-weight="600" fill="#e6e8ec">tailwindcss-scoped-preflight</text>
+  <text x="416" y="106" font-size="11.5" fill="#a3a9b3" text-anchor="end">Sep – Oct 2026, daily</text>
+  <line x1="24" y1="232" x2="416" y2="232" stroke="#ffffff" stroke-opacity=".12"/>
+  <path d="M24.0 152.4 L32.3 133.0 L40.7 147.1 L49.0 163.4 L57.4 211.0 L65.7 214.4 L74.0 158.4 L82.4 152.7 L90.7 151.7 L99.1 148.6 L107.4 164.5 L115.7 204.6 L124.1 215.7 L132.4 158.9 L140.8 152.4 L149.1 152.4 L157.4 146.6 L165.8 165.0 L174.1 212.2 L182.5 209.0 L190.8 157.6 L199.1 156.2 L207.5 148.4 L215.8 142.9 L224.2 161.4 L232.5 209.1 L240.9 210.8 L249.2 144.6 L257.5 153.5 L265.9 146.8 L274.2 145.0 L282.6 161.8 L290.9 213.2 L299.2 213.7 L307.6 158.0 L315.9 154.8 L324.3 139.0 L332.6 142.5 L340.9 162.7 L349.3 207.5 L357.6 211.6 L366.0 164.4 L374.3 154.8 L382.6 147.6 L391.0 144.0 L399.3 149.4 L407.7 207.4 L416.0 208.9 L416.0 232 L24 232 Z" fill="url(#fill)"/>
+  <path d="M24.0 152.4 L32.3 133.0 L40.7 232.0 L49.0 163.4 L57.4 211.0 L65.7 214.4 L74.0 232.0 L82.4 232.0 L90.7 151.7 L99.1 148.6 L107.4 164.5 L115.7 204.6 L124.1 215.7 L132.4 158.9 L140.8 232.0 L149.1 152.4 L157.4 146.6 L165.8 165.0 L174.1 212.2 L182.5 209.0 L190.8 157.6 L199.1 156.2 L207.5 148.4 L215.8 142.9 L224.2 161.4 L232.5 209.1 L240.9 210.8 L249.2 144.6 L257.5 153.5 L265.9 146.8 L274.2 145.0 L282.6 161.8 L290.9 213.2 L299.2 213.7 L307.6 158.0 L315.9 232.0 L324.3 139.0 L332.6 142.5 L340.9 162.7 L349.3 207.5 L357.6 211.6 L366.0 164.4 L374.3 232.0 L382.6 232.0 L391.0 232.0 L399.3 149.4 L407.7 207.4 L416.0 208.9" fill="none" stroke="#a3a9b3" stroke-width="1.6" stroke-linejoin="round" stroke-opacity=".85"/>
+  <path d="M24.0 152.4 L32.3 133.0 L40.7 147.1 L49.0 163.4 L57.4 211.0 L65.7 214.4 L74.0 158.4 L82.4 152.7 L90.7 151.7 L99.1 148.6 L107.4 164.5 L115.7 204.6 L124.1 215.7 L132.4 158.9 L140.8 152.4 L149.1 152.4 L157.4 146.6 L165.8 165.0 L174.1 212.2 L182.5 209.0 L190.8 157.6 L199.1 156.2 L207.5 148.4 L215.8 142.9 L224.2 161.4 L232.5 209.1 L240.9 210.8 L249.2 144.6 L257.5 153.5 L265.9 146.8 L274.2 145.0 L282.6 161.8 L290.9 213.2 L299.2 213.7 L307.6 158.0 L315.9 154.8 L324.3 139.0 L332.6 142.5 L340.9 162.7 L349.3 207.5 L357.6 211.6 L366.0 164.4 L374.3 154.8 L382.6 147.6 L391.0 144.0 L399.3 149.4 L407.7 207.4 L416.0 208.9" fill="none" stroke="#9b6bff" stroke-width="2.2" stroke-linejoin="round"/>
+  <circle cx="40.7" cy="147.1" r="2.6" fill="#9b6bff" stroke="#1f2329" stroke-width="1.2"/><circle cx="74.0" cy="158.4" r="2.6" fill="#9b6bff" stroke="#1f2329" stroke-width="1.2"/><circle cx="82.4" cy="152.7" r="2.6" fill="#9b6bff" stroke="#1f2329" stroke-width="1.2"/><circle cx="140.8" cy="152.4" r="2.6" fill="#9b6bff" stroke="#1f2329" stroke-width="1.2"/><circle cx="315.9" cy="154.8" r="2.6" fill="#9b6bff" stroke="#1f2329" stroke-width="1.2"/><circle cx="374.3" cy="154.8" r="2.6" fill="#9b6bff" stroke="#1f2329" stroke-width="1.2"/><circle cx="382.6" cy="147.6" r="2.6" fill="#9b6bff" stroke="#1f2329" stroke-width="1.2"/><circle cx="391.0" cy="144.0" r="2.6" fill="#9b6bff" stroke="#1f2329" stroke-width="1.2"/>
+
+  <g font-size="11.5" transform="translate(24 258)">
+    <rect x="0" y="-5" width="14" height="3" rx="1.5" fill="#a3a9b3"/><text x="19" y="0" fill="#a3a9b3">as reported by npm</text>
+    <rect x="132" y="-5" width="14" height="3" rx="1.5" fill="#9b6bff"/><text x="151" y="0" fill="#e6e8ec">corrected</text>
+  </g>
+  <text x="416" y="258" font-size="11.5" text-anchor="end" fill="#a3a9b3">last week: <tspan fill="#e6e8ec">52,587</tspan> → <tspan fill="#c9b3ff" font-weight="600">118,921</tspan></text>
+</svg>
