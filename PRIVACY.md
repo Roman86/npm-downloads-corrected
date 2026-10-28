@@ -16,11 +16,12 @@ _Last updated: 2026-10-28_
 
 ## What is stored, and where
 
-Everything is stored in your browser (`chrome.storage`), never elsewhere:
+Everything is stored in your browser through `chrome.storage`, never on a server:
 
-- a cache of download statistics fetched from npm (so pages open faster; expires automatically);
-- the list of packages you recently opened on npmjs.com and the ones you starred (the "Recent" list; at most 10 recent entries);
-- your settings from the Options page (reference packages and thresholds) and the selected period. These may be synced between your own browsers by Chrome's built-in extension sync, if you have it enabled.
+| Storage area | What is kept | Leaves the device |
+|---|---|---|
+| `storage.local` (this browser only) | cache of download statistics fetched from npm (expires automatically); the last 10 packages you opened on npmjs.com and the ones you starred; whether the panel is collapsed | no |
+| `storage.sync` (Chrome's extension sync) | settings from the Options page (reference packages, thresholds) and the selected period | only between your own browsers, if Chrome sync is enabled for extensions |
 
 Uninstalling the extension removes all of it.
 

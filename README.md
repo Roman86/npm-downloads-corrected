@@ -52,8 +52,12 @@ Then **Load unpacked** → select `dist/`. Open any package page on npmjs.com.
 - Download counts come from `api.npmjs.org/downloads/range`. It returns at most 18 months per request, so data is fetched in calendar-year chunks (a 5-year view is 6 requests per package on first load, at most 6 in parallel) and cached: past years for 7 days, the current year for 6 hours.
 - The author's packages come from `registry.npmjs.org` (the package's maintainers, then a `maintainer:` search), cached for 12 hours.
 - Permissions: `storage`, network access to `api.npmjs.org` and `registry.npmjs.org`, and a content script on `www.npmjs.com` (the whole site, because npm navigates between pages without reloading; the panel only appears on package pages). Nothing else — no access to other sites, tabs, history or cookies.
-- Everything stays in the browser (`chrome.storage`): the cache, your recent and starred packages, and settings. The extension has no server, collects no data and talks only to the two npm endpoints above.
-- Full text: [PRIVACY.md](PRIVACY.md).
+- Everything stays in the browser (`chrome.storage`); the extension has no server, collects no data and talks only to the two npm endpoints above. Full text: [PRIVACY.md](PRIVACY.md).
+
+| Storage area | What is kept | Leaves the device |
+|---|---|---|
+| `storage.local` (this browser only) | cache of download statistics (expires automatically); recent and starred packages; whether the panel is collapsed | no |
+| `storage.sync` (Chrome's extension sync) | Options settings (reference packages, thresholds) and the selected period | only between your own browsers, if Chrome sync is enabled |
 
 ## Project layout
 

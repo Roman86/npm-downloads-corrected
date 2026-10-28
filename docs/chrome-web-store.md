@@ -31,7 +31,7 @@ HOW THE CORRECTION WORKS
 An outage in npm's counting pipeline loses roughly the same share of downloads for every package on that day. Huge packages (semver, debug, ms, chalk, tslib — tens of millions of downloads a week) have very smooth curves, so a dip in them is almost certainly a counting loss, not a real drop. For each day the extension compares the references against their usual same-weekday level; if they dropped, the package's value for that day is scaled up by the same ratio (or, on days when npm reported ~0 for everything, replaced by the package's own usual level). Real spikes and drops of the package itself are left untouched, and so are holiday dips, when everything really is quieter. Reference packages and thresholds can be changed in Options.
 
 PRIVACY
-No data is collected and nothing is sent anywhere except the two npm endpoints the npmjs.com site itself uses (api.npmjs.org for download counts, registry.npmjs.org for maintainers). The cache, your recent/starred packages and settings stay in your browser. Open source (MIT): https://github.com/Roman86/npm-downloads-corrected
+No data is collected and nothing is sent anywhere except the two npm endpoints the npmjs.com site itself uses (api.npmjs.org for download counts, registry.npmjs.org for maintainers). Stored in your browser only: the statistics cache, your recent/starred packages and the panel state (local storage, never leaves the device); the Options settings and the selected period (Chrome's extension sync, so they follow you between your own browsers). Open source (MIT): https://github.com/Roman86/npm-downloads-corrected
 ```
 
 **Official / homepage URL**: https://github.com/Roman86/npm-downloads-corrected
