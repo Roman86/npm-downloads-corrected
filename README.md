@@ -33,6 +33,9 @@ Days without an outage are left untouched, and so are real spikes and drops of t
 
 ## Install
 
+From the Chrome Web Store: coming soon (the listing is being prepared, see `docs/chrome-web-store.md`).
+
+
 From a release: unzip it, open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the unzipped folder.
 
 From source (Node 22.6+):
@@ -50,6 +53,7 @@ Then **Load unpacked** → select `dist/`. Open any package page on npmjs.com.
 - The author's packages come from `registry.npmjs.org` (the package's maintainers, then a `maintainer:` search), cached for 12 hours.
 - Permissions: `storage`, network access to `api.npmjs.org` and `registry.npmjs.org`, and a content script on `www.npmjs.com` (the whole site, because npm navigates between pages without reloading; the panel only appears on package pages). Nothing else — no access to other sites, tabs, history or cookies.
 - Everything stays in the browser (`chrome.storage`): the cache, your recent and starred packages, and settings. The extension has no server, collects no data and talks only to the two npm endpoints above.
+- Full text: [PRIVACY.md](PRIVACY.md).
 
 ## Project layout
 
