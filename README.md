@@ -33,7 +33,7 @@ Days without an outage are left untouched, and so are real spikes and drops of t
 
 ## Install
 
-Chrome Web Store: **npm Downloads Corrected** (Chrome, Edge, Brave and other Chromium browsers). Open any package page on npmjs.com.
+Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/obgkbljnpilaekcjdcoiejlimhgnpimh) (Chrome, Edge, Brave and other Chromium browsers). Open any package page on npmjs.com.
 
 ## Data and privacy
 
