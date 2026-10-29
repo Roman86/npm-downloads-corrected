@@ -1,6 +1,6 @@
 # CLAUDE.md — notes for working on this repo
 
-Chrome MV3 extension that shows npm download counts corrected for npm's stats outages. TypeScript (strict) in `src/`; the panel is Preact (+ signals) with Tailwind v4 in `src/panel.css`; esbuild bundles everything into `dist/` (one minified IIFE per entry: content, background, options). See README.md for features and the algorithm; this file records **why** things are the way they are, so they don't get re-litigated.
+Chrome MV3 extension that shows npm download counts corrected for npm's stats outages. TypeScript (strict) in `src/`; the panel is Preact (+ signals) with Tailwind v4 in `src/panel.css`; esbuild bundles everything into `dist/` (one minified IIFE per entry: content, background, options, popup). See README.md for features and the algorithm; this file records **why** things are the way they are, so they don't get re-litigated.
 
 ## Run / test
 
@@ -58,7 +58,8 @@ Chrome MV3 extension that shows npm download counts corrected for npm's stats ou
 - `src/lib/correct.ts` — pure algorithm (`correctSeries`, `toWeekly`); `src/lib/period.ts` — ranges, `windowFor`, `slicePeriod`; `src/lib/chart.ts` — chart geometry (`layout`, ticks, `noteLines`); `src/lib/recent.ts` — list logic. All Node-testable.
 - `src/background.ts` — all network + caching; one typed dispatcher (`fetchSeries`, `authorPackages`).
 - `src/types.ts` — data shapes and the message contract (`Request`, `ResultOf`, `Response<T>`). Content calls the worker only through the typed `send()`; add a message by extending `Request`/`ResultOf` and `HANDLERS`.
-- `static/` — `manifest.json`, `options.html`, icons; copied verbatim into `dist/`.
+- `src/popup.ts` + `static/popup.html` — toolbar popup: says the extension works on npmjs.com, with an "Open npmjs.com" button; on npmjs.com tabs (where `tabs.query` exposes the URL thanks to the content-script host access, no `tabs` permission) it says where the panel is instead.
+- `static/` — `manifest.json`, `options.html`, `popup.html`, icons; copied verbatim into `dist/`.
 - No globals: modules import each other and esbuild inlines them. The host element id is `npm-downloads-corrected`.
 - Commit messages follow Conventional Commits (`feat:`, `fix:`, `refactor:`, `build:`, `docs:`…), version in parentheses when bumped.
 

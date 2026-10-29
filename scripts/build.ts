@@ -59,6 +59,7 @@ const options: BuildOptions = {
     content: 'src/content.tsx',
     background: 'src/background.ts',
     options: 'src/options.ts',
+    popup: 'src/popup.ts',
   },
   outdir: dist,
   bundle: true,
@@ -73,7 +74,7 @@ const options: BuildOptions = {
 };
 
 function copyStatic(): void {
-  // manifest.json, options.html, icons/ (cp: fs.cpSync fails on some mounts)
+  // manifest.json, options.html, popup.html, icons/ (cp: fs.cpSync fails on some mounts)
   execFileSync('cp', ['-R', `${join(root, 'static')}/.`, dist]);
 }
 

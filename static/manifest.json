@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "npm Downloads Corrected",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Fixes outage dips in npmjs.com download stats by comparing against huge reference packages.",
   "homepage_url": "https://github.com/Roman86/npm-downloads-corrected",
   "minimum_chrome_version": "105",
@@ -43,6 +43,7 @@
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
     },
-    "default_title": "npm Downloads Corrected — open a package page on npmjs.com"
+    "default_title": "npm Downloads Corrected",
+    "default_popup": "popup.html"
   }
 }

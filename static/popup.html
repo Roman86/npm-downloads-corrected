@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>npm Downloads Corrected</title>
+  <style>
+    :root { color-scheme: light dark; --fg: #333; --muted: #777; --accent: #8956ff; --border: #e5e5e5; }
+    @media (prefers-color-scheme: dark) { :root { --fg: #e6e6e6; --muted: #9a9a9a; --accent: #a98bff; --border: #3a3a3a; } }
+    body { width: 280px; margin: 0; padding: 14px 16px 12px; font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--fg); }
+    h1 { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 14px; font-weight: 600; }
+    h1 img { width: 20px; height: 20px; }
+    p { margin: 0 0 8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+    .muted { color: var(--muted); }
+    .hidden { display: none; }
+    a.btn { display: block; margin-top: 10px; padding: 7px 10px; border-radius: 6px; background: var(--accent); color: #fff; text-align: center; text-decoration: none; font-weight: 600; }
+    footer { display: flex; justify-content: space-between; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 12px; }
+    footer a { color: var(--muted); text-decoration: none; cursor: pointer; }
+    footer a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <h1><img src="icons/icon32.png" alt="">npm Downloads Corrected</h1>
+
+  <div id="elsewhere">
+    <p>This extension works on <b>npmjs.com</b>. Open any package page there and a panel with corrected download counts appears in the bottom-right corner.</p>
+    <a class="btn" id="open" href="https://www.npmjs.com/" target="_blank" rel="noopener">Open npmjs.com</a>
+  </div>
+
+  <div id="npm" class="hidden">
+    <p>You are on npmjs.com. Open a package page and the panel appears in the bottom-right corner.</p>
+  </div>
+
+  <div id="package" class="hidden">
+    <p>The panel is in the bottom-right corner of this page.</p>
+    <p class="muted">Not seeing it? Reload the page, and check that it is not hidden behind a cookie banner or another extension's panel.</p>
+  </div>
+
+  <footer>
+    <a id="options">Options</a>
+    <a href="https://github.com/Roman86/npm-downloads-corrected" target="_blank" rel="noopener">GitHub</a>
+  </footer>
+  <script src="popup.js"></script>
+</body>
+</html>

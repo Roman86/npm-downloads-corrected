@@ -61,13 +61,14 @@ src/ui/theme.ts        colours and font from the page → CSS variables on the p
 src/panel.css          panel stylesheet (Tailwind), compiled into content.js at build time
 src/background.ts      service worker: npm API / registry requests, caching
 src/options.ts         options page logic
+src/popup.ts           toolbar popup (where the extension works)
 src/types.ts           shared data shapes and content ↔ background messages
 src/defaults.ts        reference packages and thresholds
 src/lib/correct.ts     correction algorithm (no browser APIs)
 src/lib/period.ts      periods: ranges, date windows, slicing a period out of the series (no browser APIs)
 src/lib/chart.ts       chart geometry: scales, ticks, paths, tooltip texts (no browser APIs)
 src/lib/recent.ts      recent / starred list logic
-static/                manifest.json, options.html, icons — copied into dist/ as is
+static/                manifest.json, options.html, popup.html, icons — copied into dist/ as is
 scripts/build.ts       build (--watch, --zip): esbuild with a Tailwind plugin
 test/                  Node tests; fixtures/ holds real npm data (Aug–Oct 2026)
 CLAUDE.md              notes for AI-assisted development (decisions, data quirks)

@@ -1,6 +1,6 @@
 {
   "name": "npm-downloads-corrected",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "private": true,
   "type": "module",
   "description": "Chrome extension that corrects outage dips in npmjs.com download stats by comparing against huge reference packages.",
