@@ -21,7 +21,7 @@ Everything is stored in your browser through `chrome.storage`, never on a server
 | Storage area | What is kept | Leaves the device |
 |---|---|---|
 | `storage.local` (this browser only) | cache of download statistics fetched from npm (expires automatically); the last 10 packages you opened on npmjs.com and the ones you starred; whether the panel is collapsed | no |
-| `storage.sync` (Chrome's extension sync) | settings from the Options page (reference packages, thresholds) and the selected period | only between your own browsers, if Chrome sync is enabled for extensions |
+| `storage.sync` (Chrome's extension sync) | settings from the Settings page (reference packages, thresholds) and the selected period | only between your own browsers, if Chrome sync is enabled for extensions |
 
 Uninstalling the extension removes all of it.
 

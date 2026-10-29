@@ -29,7 +29,7 @@ An outage in npm's counting pipeline loses roughly the same share of downloads f
 
 6. **Holidays.** Around Christmas and New Year (Dec 22 – Jan 5) and on US Thanksgiving, real traffic drops for every package, references included — by ratios alone that looks exactly like an outage, and packages installed by people drop even deeper than CI-heavy references. On those days only full outages (npm reporting ~0) are corrected; the partial dip is real and stays. The tooltip marks such days as *holiday season — real dip, not corrected*.
 
-Days without an outage are left untouched, and so are real spikes and drops of the package itself. Reference packages and thresholds can be changed in the extension's **Options**.
+Days without an outage are left untouched, and so are real spikes and drops of the package itself. Reference packages and thresholds can be changed in the extension's **Settings** (the gear in the panel header).
 
 ## Install
 
@@ -45,7 +45,7 @@ Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/obg
 | Storage area | What is kept | Leaves the device |
 |---|---|---|
 | `storage.local` (this browser only) | cache of download statistics (expires automatically); recent and starred packages; whether the panel is collapsed | no |
-| `storage.sync` (Chrome's extension sync) | Options settings (reference packages, thresholds) and the selected period | only between your own browsers, if Chrome sync is enabled |
+| `storage.sync` (Chrome's extension sync) | Settings (reference packages, thresholds) and the selected period | only between your own browsers, if Chrome sync is enabled |
 
 ## Project layout
 

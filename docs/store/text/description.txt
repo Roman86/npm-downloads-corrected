@@ -7,7 +7,7 @@ This extension detects those days by comparing against huge reference packages (
 • Tooltip with what was corrected and why.
 • Recent and starred packages, and the maintainer's other packages.
 
-Real spikes and drops of the package itself are left untouched, and so are holiday dips. Reference packages and thresholds can be changed in Options.
+Real spikes and drops of the package itself are left untouched, and so are holiday dips. Reference packages and thresholds can be changed in Settings.
 
 No data is collected. The extension talks only to api.npmjs.org and registry.npmjs.org, and everything it stores stays in your browser.
 

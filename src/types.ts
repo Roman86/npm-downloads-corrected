@@ -86,11 +86,17 @@ export interface AuthorPackagesResult {
   packages: AuthorPackage[];
 }
 
-export type Request = FetchSeriesRequest | AuthorPackagesRequest;
+/** Open the extension's options page (content scripts can't call openOptionsPage themselves). */
+export interface OpenOptionsRequest {
+  type: 'openOptions';
+}
+
+export type Request = FetchSeriesRequest | AuthorPackagesRequest | OpenOptionsRequest;
 
 export interface ResultOf {
   fetchSeries: FetchSeriesResult;
   authorPackages: AuthorPackagesResult;
+  openOptions: Record<string, never>;
 }
 
 export type Response<T> = ({ ok: true } & T) | { ok: false; error: string };

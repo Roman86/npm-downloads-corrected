@@ -65,7 +65,7 @@ const chromeStub = (recent) => {
   const listeners = [];
   window.chrome = {
     storage: { sync: area('sync'), local: area('local'), onChanged: { addListener: (l) => changed.add(l), removeListener: (l) => changed.delete(l) } },
-    runtime: { id: 'test', lastError: undefined, getManifest: () => ({ version: 'store' }),
+    runtime: { id: 'test', lastError: undefined, getManifest: () => ({ version: 'store' }), openOptionsPage: () => { window.__optionsOpened = true; return Promise.resolve(); },
       onMessage: { addListener: (l) => listeners.push(l) },
       sendMessage(msg, cb) { let done = false; for (const l of listeners) l(msg, {}, (r) => { if (!done) { done = true; cb && cb(r); } }); } },
   };
@@ -108,10 +108,10 @@ async function session(dark) {
 }
 
 const shots = [];
-async function shot(host, name, caption) {
+async function shot(host, name, caption, extra = {}) {
   const file = `${OUT}/_${name}.png`;
   await host.screenshot({ path: file });
-  shots.push({ name, file, caption });
+  shots.push({ name, file, caption, ...extra });
 }
 
 // Light: 1M (all real data), tooltip on an npm-wide outage day, Packages menu.
@@ -122,7 +122,7 @@ async function shot(host, name, caption) {
   await shot(host, 'panel-1m', ['Corrected download counts', 'next to npm’s own, on every package page']);
 
   // Hover until the tooltip shows an outage day in mid-October.
-  const bb = await host.locator('svg').first().boundingBox();
+  const bb = await host.locator('svg').last().boundingBox(); // the chart (the first svg is the gear icon)
   const tipText = () => page.evaluate(() => document.getElementById('npm-downloads-corrected').shadowRoot.querySelector('.tip')?.textContent || '');
   let found = false;
   for (let fx = 0.55; fx < 0.95 && !found; fx += 0.01) {
@@ -150,6 +150,33 @@ async function shot(host, name, caption) {
   await browser.close();
 }
 
+// Options page (dist/options.html with default settings), light, full height.
+{
+  const browser = await chromium.launch();
+  const page = await browser.newPage({ viewport: { width: 460, height: 1100 }, deviceScaleFactor: 2, colorScheme: 'light' });
+  await page.addInitScript(() => { window.chrome = { storage: { sync: { get: (d, cb) => cb(d), set: (v, cb) => cb && cb() } } }; });
+  await page.route('**/*', (r) => r.request().url().endsWith('options.js')
+    ? r.fulfill({ contentType: 'text/javascript', body: readFileSync(`${DIST}/options.js`, 'utf8') })
+    : r.fulfill({ contentType: 'text/html', body: readFileSync(`${DIST}/options.html`, 'utf8') }));
+  await page.goto('https://ext.test/options.html');
+  await page.waitForSelector('main:not(.loading)');
+  // Viewport taller than the page, so nothing scrolls and the Save bar sits at the end.
+  const h = await page.evaluate(() => document.body.offsetHeight);
+  await page.setViewportSize({ width: 460, height: h });
+  const file = `${OUT}/_options.png`;
+  await page.screenshot({ path: file });
+  shots.push({ name: 'options', file, caption: ['Settings, if you want them', 'reference packages and thresholds, each with a reset to its default'], n: 6, fitHeight: 720 });
+  await browser.close();
+}
+
+// Verify the gear in the panel header opens the options page (through the worker).
+{
+  const { browser, page, host } = await session(false);
+  await host.locator('button[title^="Settings"]').click();
+  console.log('gear opens options:', await page.evaluate(() => window.__optionsOpened === true));
+  await browser.close();
+}
+
 // Compose 1280×800 frames.
 const browser = await chromium.launch();
 for (const [i, s] of shots.entries()) {
@@ -166,7 +193,7 @@ for (const [i, s] of shots.entries()) {
     .brand{display:flex;align-items:center;gap:12px;margin-bottom:34px;font-size:17px;font-weight:600;color:${dark ? '#c9b3ff' : '#6b3fe6'}}
     .brand img{width:40px;height:40px}
     .shot{flex:none;padding-right:72px;display:flex;align-items:center}
-    .shot img{display:block;width:${Math.round((await imgWidth(s.file)) / 2 * 1.35)}px;border-radius:14px;box-shadow:0 24px 64px rgba(0,0,0,${dark ? '.55' : '.18'}),0 0 0 1px rgba(0,0,0,${dark ? '.4' : '.06'})}
+    .shot img{display:block;width:${Math.round(await shotWidth(s))}px;border-radius:14px;box-shadow:0 24px 64px rgba(0,0,0,${dark ? '.55' : '.18'}),0 0 0 1px rgba(0,0,0,${dark ? '.4' : '.06'})}
   </style>
   <body>
     <div class="text">
@@ -178,13 +205,16 @@ for (const [i, s] of shots.entries()) {
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1 });
   await page.setContent(html, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
-  await page.screenshot({ path: `${OUT}/screenshot-${i + 1}-${s.name}.png` });
+  await page.screenshot({ path: `${OUT}/screenshot-${s.n ?? i + 1}-${s.name}.png` });
   await page.close();
 }
 await browser.close();
 
-async function imgWidth(file) {
-  const b = readFileSync(file);
-  return b.readUInt32BE(16); // PNG IHDR width
+// Shots are 2× captures shown at 1.35× CSS size, or scaled down to fit a height.
+async function shotWidth(s) {
+  const b = readFileSync(s.file);
+  const w = b.readUInt32BE(16) / 2, h = b.readUInt32BE(20) / 2; // PNG IHDR
+  const scale = s.fitHeight ? Math.min(1.35, s.fitHeight / h) : 1.35;
+  return w * scale;
 }
 console.log('done:', shots.map((s) => s.name).join(', '));

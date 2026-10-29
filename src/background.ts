@@ -254,7 +254,12 @@ async function authorPackages({ pkg, user }: AuthorPackagesRequest): Promise<Aut
 // ---- Messages ---------------------------------------------------------------------
 
 type Handlers = { [K in Request['type']]: (msg: Extract<Request, { type: K }>) => Promise<ResultOf[K]> };
-const HANDLERS: Handlers = { fetchSeries, authorPackages };
+async function openOptions(): Promise<Record<string, never>> {
+  await chrome.runtime.openOptionsPage();
+  return {};
+}
+
+const HANDLERS: Handlers = { fetchSeries, authorPackages, openOptions };
 
 function dispatch(msg: Request): Promise<ResultOf[Request['type']]> {
   switch (msg.type) {
@@ -262,6 +267,8 @@ function dispatch(msg: Request): Promise<ResultOf[Request['type']]> {
       return HANDLERS.fetchSeries(msg);
     case 'authorPackages':
       return HANDLERS.authorPackages(msg);
+    case 'openOptions':
+      return HANDLERS.openOptions(msg);
   }
 }
 

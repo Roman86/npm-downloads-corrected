@@ -13,7 +13,7 @@ import * as R from '../lib/recent.ts';
 import { NPM_EPOCH, RANGES, rangeById, windowFor, yesterday, type Range } from '../lib/period.ts';
 import type { Point, RecentState, Settings } from '../types.ts';
 import { Chart, ChartSkeleton, Swatch } from './Chart.tsx';
-import { compute, loadRecent, RECENT_KEY, saveCollapsed, saveRange, saveRecent, type View } from './data.ts';
+import { compute, loadRecent, RECENT_KEY, saveCollapsed, saveRange, saveRecent, send, type View } from './data.ts';
 import { PackagesMenu } from './PackagesMenu.tsx';
 import { cx, errorText, fmt, human, pctStr, short, signed } from './util.ts';
 
@@ -190,6 +190,19 @@ export function Panel({ pkg, settings, host, collapsed: initialCollapsed }: Prop
             {/* caret: points where the menu opens (down on the panel, up from the collapsed bar) */}
             <i class={cx('h-0 w-0 border-x-[3.5px] border-x-transparent', c ? 'border-b-4 border-b-current' : 'border-t-4 border-t-current')} aria-hidden="true" />
           </button>
+          {!c && (
+            <button
+              type="button"
+              class="grid h-[18px] w-[18px] flex-none place-items-center rounded-sm text-muted hover:bg-subtle hover:text-fg-strong focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent"
+              title="Settings: reference packages and thresholds"
+              onClick={(e) => {
+                e.stopPropagation();
+                send({ type: 'openOptions' }).catch(() => {});
+              }}
+            >
+              <Gear />
+            </button>
+          )}
           <span class="grid h-[18px] w-[18px] flex-none place-items-center rounded-sm text-muted group-hover:bg-subtle group-hover:text-fg-strong" aria-hidden="true">
             <i class={cx('block h-[7px] w-[7px] border-r-2 border-b-2 border-current', c ? 'translate-y-0.5 -rotate-135' : '-translate-y-0.5 rotate-45')} />
           </span>
@@ -405,4 +418,14 @@ function outageCount(view: View, range: Range): string {
   const unit = range.gran === 'week' ? 'Weeks' : 'Days';
   const bad = view.points.filter((p) => p.fixedDays).length;
   return `${unit} with outages: ${bad}/${view.points.length}`;
+}
+
+// Gear icon (Feather "settings").
+function Gear() {
+  return (
+    <svg class="h-[13px] w-[13px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3" />
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+    </svg>
+  );
 }
