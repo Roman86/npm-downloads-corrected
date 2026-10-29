@@ -137,13 +137,13 @@ function Problem({ k }: { k: keyof Draft }) {
 const show = (k: NumericKey, v: number) => (k === 'tolerance' ? +(1 - v).toFixed(2) : v);
 const store = show;
 
-function Slider({ k, label, hint, format }: { k: NumericKey; label: string; hint?: (v: number) => JSX.Element; format: (v: number) => string }) {
+function Slider({ k, label, hint, format, max: maxOverride }: { k: NumericKey; label: string; hint?: (v: number) => JSX.Element; format: (v: number) => string; max?: number }) {
   const lim = LIMITS[k];
-  const [min, max] = k === 'tolerance' ? [show(k, lim.max), show(k, lim.min)] : [lim.min, lim.max];
+  const [min, max] = k === 'tolerance' ? [show(k, lim.max), show(k, lim.min)] : [lim.min, maxOverride ?? lim.max];
   const v = show(k, draft.value[k]);
   return (
     <div class={`field${errors.value[k] ? ' invalid' : ''}`}>
-      <Head k={k} label={label} text={format(show(k, DEFAULTS[k]))} />
+      <Head k={k} label={label} text={k === 'minRefs' ? String(DEFAULTS.minRefs) : format(show(k, DEFAULTS[k]))} />
       <div class="slider">
         <input
           id={k}
@@ -196,7 +196,6 @@ function Zones() {
 function App() {
   const d = draft.value;
   const n = refs.value.length;
-  const refOptions = Array.from({ length: Math.max(n, d.minRefs, 1) }, (_, i) => i + 1);
   return (
     <main class={loaded.value ? '' : 'loading'}>
       <div class={`field${errors.value.references ? ' invalid' : ''}`}>
@@ -214,6 +213,20 @@ function App() {
           robust. <b>{n}</b> listed.
         </p>
       </div>
+
+      <Slider
+        k="minRefs"
+        label="Minimum references with data"
+        max={Math.max(n, 1)}
+        format={(v) => `${v} of ${n}`}
+        hint={(v) => (
+          <>
+            A day is corrected only if at least <b>{v}</b> of the reference packages have data for it. A reference has
+            none for days before it was published, or when its request failed. With fewer, the day is left as npm
+            reports it.
+          </>
+        )}
+      />
 
       <Slider
         k="baselineWeeks"
@@ -234,20 +247,6 @@ function App() {
         <Slider k="tolerance" label="Correct below" format={pct} />
         <Slider k="minRatio" label="Full outage below" format={pct} />
       </section>
-
-      <div class={`field${errors.value.minRefs ? ' invalid' : ''}`}>
-        <Head k="minRefs" label="Minimum references with data" text={String(DEFAULTS.minRefs)} />
-        <select id="minRefs" value={d.minRefs} onChange={(e) => set('minRefs', Number((e.currentTarget as HTMLSelectElement).value))}>
-          {refOptions.map((i) => (
-            <option value={i}>{i === 1 ? 'at least 1 reference' : `at least ${i} references`}</option>
-          ))}
-        </select>
-        <Problem k="minRefs" />
-        <p class="hint">
-          A day is corrected only if at least this many reference packages have data for it. A reference has none for
-          days before it was published, or when its request failed. With fewer, the day is left as npm reports it.
-        </p>
-      </div>
 
       <div class="actions">
         <button type="button" class="primary" disabled={!dirty.value || !valid.value} onClick={save}>
