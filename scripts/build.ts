@@ -58,7 +58,7 @@ const options: BuildOptions = {
   entryPoints: {
     content: 'src/content.tsx',
     background: 'src/background.ts',
-    options: 'src/options.ts',
+    options: 'src/options.tsx',
     popup: 'src/popup.ts',
   },
   outdir: dist,

@@ -60,7 +60,7 @@ src/ui/data.ts         settings and preferences (chrome.storage), background mes
 src/ui/theme.ts        colours and font from the page → CSS variables on the panel host
 src/panel.css          panel stylesheet (Tailwind), compiled into content.js at build time
 src/background.ts      service worker: npm API / registry requests, caching
-src/options.ts         options page logic
+src/options.tsx        options page (Preact): settings with validation and per-field reset
 src/popup.ts           toolbar popup (where the extension works)
 src/types.ts           shared data shapes and content ↔ background messages
 src/defaults.ts        reference packages and thresholds
