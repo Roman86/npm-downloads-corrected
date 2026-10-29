@@ -55,11 +55,12 @@ const errors = computed<Errors>(() => {
   for (const k of Object.keys(LIMITS) as NumericKey[]) {
     const { min, max, step } = LIMITS[k];
     const v = d[k];
-    if (!Number.isFinite(v) || v < min - 1e-9 || v > max + 1e-9) e[k] = `Must be between ${fmt(k, min)} and ${fmt(k, max)}.`;
+    if (!Number.isFinite(v) || v < min - 1e-9 || v > max + 1e-9)
+      e[k] = `Must be between ${fmt(k, k === 'tolerance' ? max : min)} and ${fmt(k, k === 'tolerance' ? min : max)}.`;
     else if (step === 1 && !Number.isInteger(v)) e[k] = 'Must be a whole number.';
   }
   if (!e.tolerance && !e.minRatio && d.minRatio >= 1 - d.tolerance)
-    e.minRatio = `Must be below 100% − outage threshold = ${pct(1 - d.tolerance)}.`;
+    e.minRatio = `Must be below the correction level (${pct(1 - d.tolerance)}).`;
   if (!e.minRefs && !e.references && d.minRefs > refs.value.length)
     e.minRefs = `Only ${refs.value.length} reference package${refs.value.length === 1 ? ' is' : 's are'} listed.`;
   return e;
@@ -67,7 +68,7 @@ const errors = computed<Errors>(() => {
 const valid = computed(() => Object.keys(errors.value).length === 0);
 
 function fmt(k: NumericKey, v: number): string {
-  return k === 'tolerance' || k === 'minRatio' ? pct(v) : String(v);
+  return k === 'tolerance' ? pct(1 - v) : k === 'minRatio' ? pct(v) : String(v);
 }
 function same(k: keyof Draft, a: Draft, b: CorrectionSettings): boolean {
   if (k === 'references') return parseRefs(a.references).join(',') === b.references.join(',');
@@ -131,26 +132,63 @@ function Problem({ k }: { k: keyof Draft }) {
   return e ? <div class="error">{e}</div> : null;
 }
 
-function Slider({ k, label, hint, format }: { k: NumericKey; label: string; hint: (v: number) => JSX.Element; format: (v: number) => string }) {
-  const { min, max, step } = LIMITS[k];
-  const v = draft.value[k];
+// `tolerance` is stored as the lost share (0.1) but shown as the remaining
+// level (90%), on the same scale as `minRatio`.
+const show = (k: NumericKey, v: number) => (k === 'tolerance' ? +(1 - v).toFixed(2) : v);
+const store = show;
+
+function Slider({ k, label, hint, format }: { k: NumericKey; label: string; hint?: (v: number) => JSX.Element; format: (v: number) => string }) {
+  const lim = LIMITS[k];
+  const [min, max] = k === 'tolerance' ? [show(k, lim.max), show(k, lim.min)] : [lim.min, lim.max];
+  const v = show(k, draft.value[k]);
   return (
     <div class={`field${errors.value[k] ? ' invalid' : ''}`}>
-      <Head k={k} label={label} text={format(DEFAULTS[k])} />
+      <Head k={k} label={label} text={format(show(k, DEFAULTS[k]))} />
       <div class="slider">
         <input
           id={k}
           type="range"
           min={min}
           max={max}
-          step={step}
+          step={lim.step}
           value={Math.min(max, Math.max(min, v))}
-          onInput={(e) => set(k, Number((e.currentTarget as HTMLInputElement).value))}
+          onInput={(e) => set(k, store(k, Number((e.currentTarget as HTMLInputElement).value)))}
         />
         <output for={k}>{format(v)}</output>
       </div>
       <Problem k={k} />
-      <p class="hint">{hint(v)}</p>
+      {hint && <p class="hint">{hint(v)}</p>}
+    </div>
+  );
+}
+
+// The two thresholds on one scale: how much of their usual level the
+// references still show on a day, and what happens in each zone.
+function Zones() {
+  const d = draft.value;
+  const low = Math.min(show('minRatio', d.minRatio), 0.99);
+  const high = Math.max(show('tolerance', d.tolerance), low);
+  return (
+    <div class="zones">
+      <div class="bar">
+        <span class="z-fill" style={{ width: `${low * 100}%` }} />
+        <span class="z-scale" style={{ width: `${(high - low) * 100}%` }} />
+        <span class="z-keep" style={{ flex: 1 }} />
+      </div>
+      <ul class="legend">
+        <li>
+          <i class="z-keep" />
+          <span><b>{pct(high)}–100%</b> of the usual level: a normal day, left as npm reports it.</span>
+        </li>
+        <li>
+          <i class="z-scale" />
+          <span><b>{pct(low)}–{pct(high)}</b>: a partial outage, the package's number is scaled up by the same share.</span>
+        </li>
+        <li>
+          <i class="z-fill" />
+          <span><b>below {pct(low)}</b>: a full outage, scaling is unreliable, so the day is filled with the package's own usual level for that weekday.</span>
+        </li>
+      </ul>
     </div>
   );
 }
@@ -189,29 +227,13 @@ function App() {
         )}
       />
 
-      <Slider
-        k="tolerance"
-        label="Outage threshold"
-        format={pct}
-        hint={(v) => (
-          <>
-            A day counts as damaged when the references are more than <b>{pct(v)}</b> below their usual level. The
-            package's number is then scaled up by the same share.
-          </>
-        )}
-      />
-
-      <Slider
-        k="minRatio"
-        label="Full-outage level"
-        format={pct}
-        hint={(v) => (
-          <>
-            When the references fall below <b>{pct(v)}</b> of their usual level, scaling is unreliable: the day is filled
-            with the package's own usual level for that weekday instead.
-          </>
-        )}
-      />
+      <section class="group">
+        <h2>Correction thresholds</h2>
+        <p class="hint">What happens to the package's number depends on how much of their usual level the reference packages show that day:</p>
+        <Zones />
+        <Slider k="tolerance" label="Correct below" format={pct} />
+        <Slider k="minRatio" label="Full outage below" format={pct} />
+      </section>
 
       <div class={`field${errors.value.minRefs ? ' invalid' : ''}`}>
         <Head k="minRefs" label="References required per day" text={String(DEFAULTS.minRefs)} />

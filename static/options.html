@@ -29,6 +29,19 @@
     .slider { display: flex; align-items: center; gap: 12px; }
     input[type=range] { flex: 1; margin: 0; accent-color: var(--accent); }
     output { min-width: 5.5em; text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--strong); }
+    .group { margin: 0 0 18px; padding: 12px 14px 0; border: 1px solid var(--border); border-radius: 8px; }
+    .group h2 { margin: 0 0 2px; font-size: 14px; color: var(--strong); }
+    .group > .hint { margin: 0 0 10px; }
+    .group .field { margin-bottom: 14px; }
+    .zones { margin-bottom: 14px; }
+    .bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; }
+    .z-fill { background: var(--error); }
+    .z-scale { background: var(--accent); }
+    .z-keep { background: var(--track); }
+    .legend { margin: 8px 0 0; padding: 0; list-style: none; font-size: 12px; color: var(--muted); }
+    .legend li { display: flex; gap: 8px; margin-top: 3px; }
+    .legend li b { color: var(--fg); white-space: nowrap; }
+    .legend i { flex: none; width: 10px; height: 10px; margin-top: 4px; border-radius: 3px; }
     .hint { margin: 4px 0 0; font-size: 12px; color: var(--muted); }
     .hint b { color: var(--fg); font-weight: 600; }
     .error { margin-top: 4px; font-size: 12px; color: var(--error); }
