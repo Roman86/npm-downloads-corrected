@@ -253,16 +253,12 @@ function App() {
         <button type="button" class="primary" disabled={!dirty.value || !valid.value} onClick={save}>
           Save
         </button>
-        {dirty.value && (
-          <button type="button" class="link" onClick={() => { draft.value = toDraft(saved.value); status.value = ''; }}>
-            Discard changes
-          </button>
-        )}
-        {customized.value && (
-          <button type="button" class="link" onClick={() => { draft.value = toDraft(DEFAULTS); status.value = ''; }}>
-            Reset all to defaults
-          </button>
-        )}
+        <button type="button" class="link" disabled={!dirty.value} onClick={() => { draft.value = toDraft(saved.value); status.value = ''; }}>
+          Discard changes
+        </button>
+        <button type="button" class="link" disabled={!customized.value} onClick={() => { draft.value = toDraft(DEFAULTS); status.value = ''; }}>
+          Reset all to defaults
+        </button>
         <span class="status">{status.value}</span>
       </div>
     </main>
