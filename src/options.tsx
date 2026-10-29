@@ -182,11 +182,11 @@ function Zones() {
         </li>
         <li>
           <i class="z-scale" />
-          <span><b>{pct(low)}–{pct(high)}</b>: a partial outage, the package's number is scaled up by the same share.</span>
+          <span><b>{pct(low)}–{pct(high)}</b>: a partial outage, the package's number is scaled up by the share the references lost.</span>
         </li>
         <li>
           <i class="z-fill" />
-          <span><b>below {pct(low)}</b>: a full outage, scaling is unreliable, so the day is filled with the package's own usual level for that weekday.</span>
+          <span><b>below {pct(low)}</b>: a full outage, the references are too close to zero to scale by, so the day is filled with the package's own usual level for that weekday.</span>
         </li>
       </ul>
     </div>
