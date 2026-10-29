@@ -236,14 +236,17 @@ function App() {
       </section>
 
       <div class={`field${errors.value.minRefs ? ' invalid' : ''}`}>
-        <Head k="minRefs" label="References required per day" text={String(DEFAULTS.minRefs)} />
+        <Head k="minRefs" label="Minimum references with data" text={String(DEFAULTS.minRefs)} />
         <select id="minRefs" value={d.minRefs} onChange={(e) => set('minRefs', Number((e.currentTarget as HTMLSelectElement).value))}>
           {refOptions.map((i) => (
-            <option value={i}>{i === 1 ? '1 reference' : `${i} references`}</option>
+            <option value={i}>{i === 1 ? 'at least 1 reference' : `at least ${i} references`}</option>
           ))}
         </select>
         <Problem k="minRefs" />
-        <p class="hint">Days where fewer references have data are left as npm reports them.</p>
+        <p class="hint">
+          A day is corrected only if at least this many reference packages have data for it. A reference has none for
+          days before it was published, or when its request failed. With fewer, the day is left as npm reports it.
+        </p>
       </div>
 
       <div class="actions">
