@@ -45,15 +45,15 @@
     .hint { margin: 4px 0 0; font-size: 12px; color: var(--muted); }
     .hint b { color: var(--fg); font-weight: 600; }
     .error { margin-top: 4px; font-size: 12px; color: var(--error); }
-    .actions { position: sticky; bottom: 0; display: flex; align-items: center; gap: 14px; margin: 22px -20px 0; padding: 12px 20px 14px; border-top: 1px solid var(--border); background: Canvas; transition: box-shadow 0.2s; }
-    .more-below .actions { box-shadow: 0 -10px 18px -10px rgba(0, 0, 0, 0.35); }
-    /* Top shade while content is scrolled past */
-    body::before { content: ''; position: fixed; z-index: 1; top: 0; left: 0; right: 0; height: 14px; background: linear-gradient(rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0)); opacity: 0; transition: opacity 0.2s; pointer-events: none; }
-    .more-above body::before { opacity: 1; }
-    @media (prefers-color-scheme: dark) {
-      .more-below .actions { box-shadow: 0 -10px 18px -10px rgba(0, 0, 0, 0.8); }
-      body::before { background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)); }
-    }
+    .actions { position: sticky; bottom: 0; display: flex; align-items: center; gap: 14px; margin: 22px -20px 0; padding: 12px 20px 14px; border-top: 1px solid var(--border); background: Canvas; }
+    /* Edge shades: top of the page while content is scrolled past, above the
+       sticky bar while there is content below the fold. */
+    body::before, .actions::before { content: ''; position: absolute; left: 0; right: 0; height: 14px; background: linear-gradient(var(--shade), transparent); opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+    body::before { position: fixed; z-index: 1; top: 0; }
+    .actions::before { bottom: 100%; background: linear-gradient(transparent, var(--shade)); }
+    .more-above body::before, .more-below .actions::before { opacity: 1; }
+    :root { --shade: rgba(0, 0, 0, 0.18); }
+    @media (prefers-color-scheme: dark) { :root { --shade: rgba(0, 0, 0, 0.5); } }
     button.primary { padding: 7px 18px; border: 0; border-radius: 6px; background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
     button.primary:disabled { opacity: 0.45; cursor: default; }
     .status { margin-left: auto; font-size: 12px; color: var(--ok); }
