@@ -18,7 +18,7 @@ type Draft = {
 type NumericKey = Exclude<keyof Draft, 'references'>;
 
 const LIMITS: Record<NumericKey, { min: number; max: number; step: number }> = {
-  baselineWeeks: { min: 1, max: 12, step: 1 },
+  baselineWeeks: { min: 2, max: 8, step: 1 },
   tolerance: { min: 0.01, max: 0.5, step: 0.01 },
   minRatio: { min: 0.01, max: 0.9, step: 0.01 },
   minRefs: { min: 1, max: 50, step: 1 },
