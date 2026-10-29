@@ -267,3 +267,15 @@ function App() {
 }
 
 render(<App />, document.getElementById('app')!);
+
+// Edge shadows: a shade at the top while there is content scrolled past, a
+// shadow on the sticky action bar while there is content below the fold.
+function edges(): void {
+  const el = document.documentElement;
+  el.classList.toggle('more-above', el.scrollTop > 1);
+  el.classList.toggle('more-below', el.scrollTop + el.clientHeight < el.scrollHeight - 1);
+}
+addEventListener('scroll', edges, { passive: true });
+addEventListener('resize', edges);
+new ResizeObserver(edges).observe(document.body);
+edges();
